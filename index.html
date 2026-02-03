@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Colourful Lives - Custom Coloring Books & Frames</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Fredoka+One&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; color: #333; line-height: 1.6; overflow-x: hidden; }
+        nav { background: linear-gradient(45deg, #ff6b6b, #4ecdc4); padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav ul { list-style: none; display: flex; justify-content: center; gap: 2rem; }
+        nav a { color: white; text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: color 0.3s; }
+        nav a:hover { color: #ffd700; }
+        .hero { height: 100vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1920x1080?text=Your+Recent+Photo+1') center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 2rem; margin-top: 70px; }
+        .hero h1 { font-family: 'Fredoka One', cursive; font-size: clamp(2.5rem, 8vw, 5rem); background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .hero p { font-size: 1.5rem; max-width: 600px; margin-bottom: 2rem; }
+        .cta-btn { background: linear-gradient(45deg, #ff6b6b, #ff8e8e); color: white; padding: 1rem 2.5rem; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; text-decoration: none; display: inline-block; }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255,107,107,0.4); }
+        section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .gallery { background: #f8f9fa; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .gallery-item { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .gallery-item:hover { transform: translateY(-10px); }
+        .gallery-item img { width: 100%; height: 250px; object-fit: cover; }
+        .gallery-item h3 { padding: 1.5rem; color: #333; }
+        .order-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; }
+        .order-container { max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 3rem; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .order-tabs { display: flex; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .tab-btn { background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3); padding: 1rem 2rem; border-radius: 50px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+        .tab-btn.active { background: white; color: #667eea; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .order-form { display: none; }
+        .order-form.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .form-group { margin-bottom: 2rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 700; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 1rem; border: none; border-radius: 10px; font-size: 1rem; background: rgba(255,255,255,0.9); transition: all 0.3s; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; box-shadow: 0 0 0 3px rgba(255,255,255,0.5); background: white; }
+        #imagePreview { width: 100%; max-height: 300px; object-fit: cover; border-radius: 10px; margin-top: 1rem; display: none; border: 3px dashed #4ecdc4; }
+        .submit-btn { background: linear-gradient(45deg, #ff6b6b, #ff8e8e); color: white; border: none; padding: 1.5rem 3rem; border-radius: 50px; font-size: 1.2rem; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.3s; }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255,107,107,0.4); }
+        .success-message { display: none; background: rgba(76, 175, 80, 0.9); color: white; padding: 2rem; border-radius: 15px; margin-top: 2rem; text-align: center; }
+        footer { background: #333; color: white; text-align: center; padding: 3rem 2rem; }
+        @media (max-width: 768px) {
+            nav ul { flex-direction: column; gap: 1rem; }
+            .hero { padding: 2rem; text-align: center; }
+            .order-tabs { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#order">Order Now</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page 1: Home + Gallery -->
+    <section id="home" class="hero">
+        <h1>Our Colourful Lives</h1>
+        <p>Transform your precious moments into magical coloring books for kids or elegant photo frames. Perfect gifts that bring joy and creativity!</p>
+        <a href="#order" class="cta-btn">Start Your Order</a>
+    </section>
+
+    <section id="gallery" class="gallery">
+        <h2 style="text-align: center; font-size: 3rem; margin-bottom: 1rem; color: #333;">My Recent Creations</h2>
+        <p style="text-align: center; font-size: 1.2rem; color: #666; margin-bottom: 3rem;">Replace these placeholder URLs with your actual photos</p>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/ff6b6b/ffffff?text=Your+Photo+1" alt="Achievement 1">
+                <h3>Custom Coloring Book</h3>
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/4ecdc4/ffffff?text=Your+Photo+2" alt="Achievement 2">
+                <h3>Elegant Photo Frame</h3>
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/45b7d1/ffffff?text=Your+Photo+3" alt="Achievement 3">
+                <h3>Kids Coloring Page</h3>
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/ff9f43/ffffff?text=Your+Photo+4" alt="Achievement 4">
+                <h3>Personalized Frame</h3>
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/45b7d1/ffffff?text=Your+Photo+5" alt="Achievement 5">
+                <h3>Family Portrait Frame</h3>
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400x250/4ecdc4/ffffff?text=Your+Photo+6" alt="Achievement 6">
+                <h3>Custom Kids Art</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page 2: Order Form -->
+    <section id="order" class="order-section">
+        <div class="order-container">
+            <h2 style="font-size: 3rem; margin-bottom: 1rem;">Place Your Order</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">Choose your product and upload your photo - we'll create magic!</p>
+            
+            <div class="order-tabs">
+                <button class="tab-btn active" onclick="switchTab('coloring')">🎨 Coloring Book (Kids)</button>
+                <button class="tab-btn" onclick="switchTab('frame')">🖼️ Elegant Frame</button>
+            </div>
+
+            <!-- Coloring Book Form -->
+            <form id="coloringForm" class="order-form active">
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone/WhatsApp *</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Upload Your Photo *</label>
+                    <input type="file" id="coloringPhoto" name="photo" accept="image/*" required>
+                    <img id="coloringPreview" alt="Preview">
+                </div>
+                <div class="form-group">
+                    <label>Special Instructions</label>
+                    <textarea name="instructions" rows="4" placeholder="Any special requests for the coloring book design..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Place Coloring Book Order</button>
+            </form>
+
+            <!-- Frame Form -->
+            <form id="frameForm" class="order-form">
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone/WhatsApp *</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Upload Your Photo *</label>
+                    <input type="file" id="framePhoto" name="photo" accept="image/*" required>
+                    <img id="framePreview" alt="Preview">
+                </div>
+                <div class="form-group">
+                    <label>Frame Style</label>
+                    <select name="frameStyle">
+                        <option value="simple">Simple Elegant</option>
+                        <option value="floral">Floral Design</option>
+                        <option value="vintage">Vintage Style</option>
+                        <option value="modern">Modern Minimal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Special Instructions</label>
+                    <textarea name="instructions" rows="4" placeholder="Frame size, colors, or other preferences..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Place Frame Order</button>
+            </div>
+
+            <div id="successMessage" class="success-message">
+                <h3>🎉 Order Received!</h3>
+                <p>Thank you! Your order has been sent to our Delhi studio. We'll contact you within 24 hours to confirm details and delivery.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 style="text-align: center; font-size: 3rem; margin-bottom: 3rem;">Get In Touch</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; text-align: center;">
+            <div>
+                <h3>📧 Email</h3>
+                <p>Raokamakshi17@gmail.com</p>
+            </div>
+            <div>
+                <h3>📱 WhatsApp</h3>
+                <p>+91 7669081000 (Gurugram)</p>
+            </div>
+            <div>
+                <h3>📍 Studio</h3>
+                <p>Haryana, India<br>Fast delivery across  North India</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Our Colourful Lives. Made with ❤️ in Gurugram, haryana. Serving creativity across India.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Tab switching
+        function switchTab(type) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.order-form').forEach(form => form.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(type + 'Form').classList.add('active');
+        }
+
+        // Image preview
+        function setupPreview(inputId, previewId) {
+            document.getElementById(inputId).addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.getElementById(previewId);
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        setupPreview('coloringPhoto', 'coloringPreview');
+        setupPreview('framePhoto', 'framePreview');
+
+        // Form submission - sends email to your address with all details + photo
+        document.getElementById('coloringForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            sendOrder('Coloring Book Order', this);
+        });
+        document.getElementById('frameForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            sendOrder('Elegant Frame Order', this);
+        });
+
+        function sendOrder(orderType, form) {
+            const formData = new FormData(form);
+            const photoFile = form.querySelector('input[name="photo"]').files[0];
+            
+            // Create email with all details
+            const subject = `New ${orderType} - ${formData.get('name')}`;
+            let body = `🆕 NEW ORDER RECEIVED!\n\n`;
+            body += `Order Type: ${orderType}\n`;
+            body += `Name: ${formData.get('name')}\n`;
+            body += `Email: ${formData.get('email')}\n`;
+            body += `Phone: ${formData.get('phone')}\n`;
+            body += `Instructions: ${formData.get('instructions') || 'None'}\n\n`;
+            body += `📸 PHOTO ATTACHED\n`;
+            body += `=================\n`;
+            body += `From: Delhi Studio\n`;
+            body += `Date: ${new Date().toLocaleString('en-IN')}\n`;
+
+            // Using mailto (opens user's email client with photo attached)
+            const mailtoLink = `mailto:Raokamakshi17@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            document.querySelector('.order-container').scrollIntoView({ behavior: 'smooth' });
+            
+            // Open email client (user attaches photo manually - simple & works everywhere)
+            window.location.href = mailtoLink;
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                form.reset();
+                document.getElementById('coloringPreview').style.display = 'none';
+                document.getElementById('framePreview').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
